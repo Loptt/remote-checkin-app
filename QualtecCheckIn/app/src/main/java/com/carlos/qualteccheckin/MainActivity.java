@@ -4,17 +4,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button loginButton;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
+
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginButton = (Button) findViewById(R.id.main_button);
+        loginButton = (Button) findViewById(R.id.main_login_button);
+        usernameEditText = (EditText) findViewById(R.id.main_username);
+        passwordEditText = (EditText) findViewById(R.id.main_password);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -24,3 +35,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+

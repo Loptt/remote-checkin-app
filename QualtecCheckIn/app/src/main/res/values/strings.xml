@@ -3,4 +3,6 @@
     <string name="login">Login</string>
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
+    <string name="enter">Entrar</string>
+    <string name="exit">Salir</string>
 </resources>

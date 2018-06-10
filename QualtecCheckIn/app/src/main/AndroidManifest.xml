@@ -18,5 +18,6 @@
         </activity>
         <activity android:name=".CheckInActivity"></activity>
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Qualtec Check In</string>
     <string name="login">Login</string>
-    <string name="user">Usuario</string>
+    <string name="register">Registrar</string>
+    <string name="email">Email</string>
+    <string name="name">Nombre</string>
     <string name="password">Contraseña</string>
     <string name="enter">Entrar</string>
     <string name="exit">Salir</string>

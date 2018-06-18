@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
 
     private Button loginButton;
-    private EditText usernameEditText;
+    private EditText emailEditText;
     private EditText passwordEditText;
 
     private FirebaseAuth firebaseAuth;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         loginButton = (Button) findViewById(R.id.main_login_button);
-        usernameEditText = (EditText) findViewById(R.id.main_username);
+        emailEditText = (EditText) findViewById(R.id.main_email);
         passwordEditText = (EditText) findViewById(R.id.main_password);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void signInUser() {
-        String username = usernameEditText.getText().toString().trim();
+        String username = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
         if (username.isEmpty()) {
-            usernameEditText.setError("Se requiere un email");
-            usernameEditText.requestFocus();
+            emailEditText.setError("Se requiere un email");
+            emailEditText.requestFocus();
 
             //Toast.makeText(MainActivity.this, "Por favor, introduce un usuario",
               //      Toast.LENGTH_SHORT).show();

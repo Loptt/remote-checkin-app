@@ -60,6 +60,7 @@ public class CheckInActivity extends AppCompatActivity{
                 }
                 else {
                     //User not correctly authenticated
+                    Toast.makeText(CheckInActivity.this, "Error de autenticacion", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -70,8 +71,10 @@ public class CheckInActivity extends AppCompatActivity{
                 if (user != null) {
                     Toast.makeText(CheckInActivity.this, "Salida", Toast.LENGTH_SHORT).show();
                     sendEmail("Saliendo");
-                } else {
+                }
+                else {
                     //User not correctly authenticated
+                    Toast.makeText(CheckInActivity.this, "Error de autenticacion", Toast.LENGTH_SHORT).show();
                 }
             }
         });

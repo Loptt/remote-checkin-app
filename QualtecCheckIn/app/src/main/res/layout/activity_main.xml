@@ -17,9 +17,9 @@
 
 
     <EditText
-        android:hint="@string/user"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:id="@+id/main_username"
+        android:id="@+id/main_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"/>

@@ -1,11 +1,15 @@
 package com.carlos.qualteccheckin;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,6 +24,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText nameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
+
+    private ProgressDialog progressDialog;
+
+    private FirebaseUser user;
 
     FirebaseAuth firebaseAuth;
 
@@ -45,23 +53,56 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void register() {
-        String name = nameEditText.getText().toString().trim();
-        String email = emailEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
+        final String name = nameEditText.getText().toString().trim();
+        final String email = emailEditText.getText().toString().trim();
+        final String password = passwordEditText.getText().toString().trim();
+
+        progressDialog = new ProgressDialog(RegisterActivity.this);
+        progressDialog.setMessage("Registrando");
+        progressDialog.show();
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
+                progressDialog.dismiss();
+
                 if (task.isSuccessful()) {
                     //Successful registration
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    Log.d("Checking", "Create successful");
+                    updateProfile(name);
 
+                    Intent intent = new Intent(RegisterActivity.this, CheckInActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
                 else {
-                    //Failed registration
+                    //Failed Registration
+                    Toast.makeText(RegisterActivity.this, "Error en el registro", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void updateProfile(String name) {
+        user = firebaseAuth.getCurrentUser();
+
+        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+        Log.d("Antes de change request", "Si llega");
+
+        user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(RegisterActivity.this, "Error en el registro", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.d("Despues de change", "Si llega");
     }
 }

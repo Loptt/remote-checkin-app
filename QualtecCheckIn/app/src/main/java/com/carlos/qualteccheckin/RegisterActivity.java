@@ -70,12 +70,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
                     //Successful registration
-                    Log.d("Checking", "Create successful");
+                    Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                    Log.d("Checking", "Updating profile");
                     updateProfile(name);
-
+/*
                     Intent intent = new Intent(RegisterActivity.this, CheckInActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
                 else {
                     //Failed Registration
@@ -88,21 +89,29 @@ public class RegisterActivity extends AppCompatActivity {
     private void updateProfile(String name) {
         user = firebaseAuth.getCurrentUser();
 
-        UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
-        Log.d("Antes de change request", "Si llega");
+        if (user != null) {
 
-        user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(RegisterActivity.this, "Error en el registro", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
+            Log.d("Checking", "Before update profile");
 
-        Log.d("Despues de change", "Si llega");
+            user.updateProfile(profileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Log.d("Checking", "Update profile task successful");
+                        Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Log.d("Checking", "Update profile task failed");
+                        Toast.makeText(RegisterActivity.this, "Error en el registro", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            Log.d("Checking", "After update profile");
+        }
+        else {
+            Log.d("Checking", "User not recognized");
+        }
+
     }
 }

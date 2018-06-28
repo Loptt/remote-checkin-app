@@ -13,6 +13,7 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 
 import com.carlos.qualteccheckin.MailAPI.SendMail;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -20,12 +21,13 @@ public class CheckInActivity extends AppCompatActivity{
 
     private Button enterButton;
     private Button exitButton;
-
     private TextView usernameTextView;
 
     private FirebaseUser user;
 
     private String username, email;
+
+    private FusedLocationProviderClient locationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

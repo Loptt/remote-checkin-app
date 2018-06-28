@@ -70,13 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()) {
                     //Successful registration
-                    Toast.makeText(RegisterActivity.this, "Registro exitoso", Toast.LENGTH_SHORT).show();
                     Log.d("Checking", "Updating profile");
                     updateProfile(name);
-/*
-                    Intent intent = new Intent(RegisterActivity.this, CheckInActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);*/
                 }
                 else {
                     //Failed Registration
@@ -100,6 +95,10 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Log.d("Checking", "Update profile task successful");
                         Toast.makeText(RegisterActivity.this, "Usuario registrado", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(RegisterActivity.this, CheckInActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                     }
                     else {
                         Log.d("Checking", "Update profile task failed");

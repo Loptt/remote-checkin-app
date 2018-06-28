@@ -30,6 +30,7 @@ dependencies {
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
     implementation files('libs/mail.jar')
+    implementation "com.google.android.gms:play-services-location:11.6.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

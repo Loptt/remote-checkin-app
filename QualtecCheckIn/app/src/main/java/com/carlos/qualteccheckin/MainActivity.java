@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,19 +85,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
+                Log.d("Checking", "Sign in action ended");
                 progressDialog.dismiss();
 
                 if (task.isSuccessful()) {
+
+                    Log.d("Checking", "Successful login");
                     //Successful login
                     Toast.makeText(MainActivity.this, "Login Successful",
                             Toast.LENGTH_SHORT).show();
 
-                    //TODO: Add actions on successful login
+                    Log.d("Checking", "Before intent");
                     Intent intent = new Intent(MainActivity.this, CheckInActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-
-                } else {
+                    //startActivity(intent);
+                }
+                else {
                     //Failed login
                     Toast.makeText(MainActivity.this, "Login Failed",
                             Toast.LENGTH_SHORT).show();

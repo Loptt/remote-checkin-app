@@ -62,11 +62,11 @@ public class CheckInActivity extends AppCompatActivity{
             username = user.getDisplayName();
             email = user.getEmail();
 
-            if (username.isEmpty()) {
-                usernameTextView.setText("Sin Nombre");
+            if (username != null) {
+                usernameTextView.setText(username);
             }
             else {
-                usernameTextView.setText(username);
+                usernameTextView.setText("Sin Nombre");
             }
         }
 

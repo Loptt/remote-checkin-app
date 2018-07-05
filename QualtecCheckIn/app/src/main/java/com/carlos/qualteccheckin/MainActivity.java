@@ -92,13 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
                     Log.d("Checking", "Successful login");
                     //Successful login
-                    Toast.makeText(MainActivity.this, "Login Successful",
-                            Toast.LENGTH_SHORT).show();
 
                     Log.d("Checking", "Before intent");
                     Intent intent = new Intent(MainActivity.this, CheckInActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    //startActivity(intent);
+                    startActivity(intent);
                 }
                 else {
                     //Failed login

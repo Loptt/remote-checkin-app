@@ -1,8 +1,12 @@
 package com.carlos.qualteccheckin;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +34,9 @@ public class CheckInActivity extends AppCompatActivity{
 
     private final int CHECKING_IN = 1;
     private final int CHEKING_OUT = 2;
+    private final int REQUEST_LOCATION = 1;
+
+    private  int statusSaver = 0;
 
     private Button enterButton;
     private Button exitButton;
@@ -103,6 +110,8 @@ public class CheckInActivity extends AppCompatActivity{
 
         int result = PermissionChecker.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
 
+        statusSaver = status;
+
         progressDialog = new ProgressDialog(CheckInActivity.this);
         progressDialog.setMessage("Solicitud en progreso");
         progressDialog.show();
@@ -124,6 +133,11 @@ public class CheckInActivity extends AppCompatActivity{
                     progressDialog.dismiss();
                 }
             });
+        }
+        else {
+            progressDialog.dismiss();
+            Toast.makeText(CheckInActivity.this, "Servicios de ubicacion desactivados", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(CheckInActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
         }
     }
 
@@ -160,5 +174,21 @@ public class CheckInActivity extends AppCompatActivity{
         SendMail sendMail = new SendMail(CheckInActivity.this, email, subject, message);
 
         sendMail.execute();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    checkIn(statusSaver);
+                }
+                else {
+                    Toast.makeText(CheckInActivity.this, "Servicio no disponible sin acceso a ubicacion", Toast.LENGTH_LONG).show();
+                }
+
+                break;
+            }
+        }
     }
 }

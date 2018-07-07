@@ -3,6 +3,7 @@ package com.carlos.qualteccheckin;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -40,7 +41,9 @@ public class CheckInActivity extends AppCompatActivity{
 
     private Button enterButton;
     private Button exitButton;
+
     private TextView usernameTextView;
+    private TextView logoutText;
 
     private FirebaseUser user;
 
@@ -58,6 +61,7 @@ public class CheckInActivity extends AppCompatActivity{
 
         enterButton = (Button) findViewById(R.id.check_in_enter);
         exitButton = (Button) findViewById(R.id.check_in_exit);
+        logoutText = (TextView) findViewById(R.id.check_in_logout);
 
         usernameTextView = (TextView) findViewById(R.id.check_in_username);
 
@@ -102,6 +106,16 @@ public class CheckInActivity extends AppCompatActivity{
                     //User not correctly authenticated
                     Toast.makeText(CheckInActivity.this, "Error de autenticacion", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        logoutText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+
+                Intent intent = new Intent(CheckInActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

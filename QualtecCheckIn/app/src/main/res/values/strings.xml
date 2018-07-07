@@ -5,7 +5,8 @@
     <string name="email">Email</string>
     <string name="name">Nombre</string>
     <string name="password">Contraseña</string>
-    <string name="enter">Entrar</string>
-    <string name="exit">Salir</string>
+    <string name="enter">Entrada</string>
+    <string name="exit">Salida</string>
     <string name="register_here">¿Sin credenciales? <u>Registrate aqui</u></string>
+    <string name="logout"><u>Cerrar sesión</u></string>
 </resources>

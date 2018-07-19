@@ -24,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText nameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
+    private EditText confirmPasswordEditText;
 
     private ProgressDialog progressDialog;
 
@@ -43,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         nameEditText = (EditText)  findViewById(R.id.register_name);
         emailEditText = (EditText)  findViewById(R.id.register_email);
         passwordEditText = (EditText)  findViewById(R.id.register_password);
+        confirmPasswordEditText = (EditText) findViewById(R.id.register_password_confirm);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,30 +57,50 @@ public class RegisterActivity extends AppCompatActivity {
     private void register() {
         final String name = nameEditText.getText().toString().trim();
         final String email = emailEditText.getText().toString().trim();
-        final String password = passwordEditText.getText().toString().trim();
+        final String password = passwordEditText.getText().toString();
+        final String confirmPassword = confirmPasswordEditText.getText().toString();
 
         progressDialog = new ProgressDialog(RegisterActivity.this);
         progressDialog.setMessage("Registrando");
         progressDialog.show();
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+        if (name.isEmpty()) {
+            return;
+        }
 
-                progressDialog.dismiss();
+        if (email.isEmpty()) {
+            return;
+        }
 
-                if (task.isSuccessful()) {
-                    //Successful registration
-                    Log.d("Checking", "Updating profile");
-                    updateProfile(name);
-                }
-                else {
-                    //Failed Registration
-                    Toast.makeText(RegisterActivity.this, "Error en el registro", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        if (password.equals(confirmPassword)) {
+            firebaseAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            progressDialog.dismiss();
+
+                            if (task.isSuccessful()) {
+                                //Successful registration
+                                Log.d("Checking", "Updating profile");
+                                updateProfile(name);
+                            }
+                            else {
+                                //Failed Registration
+                                Toast.makeText(RegisterActivity.this, "Error en el registro", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+        else {
+            passwordEditText.setError("Las contraseñas no coinciden");
+            passwordEditText.requestFocus();
+
+            confirmPasswordEditText.setError("Las contraseñas no coinciden");
+            confirmPasswordEditText.requestFocus();
+        }
+
+        progressDialog.dismiss();
     }
 
     private void updateProfile(String name) {

@@ -5,6 +5,7 @@
     <string name="email">Email</string>
     <string name="name">Nombre</string>
     <string name="password">Contraseña</string>
+    <string name="confirm_password">Confirmar contraseña</string>
     <string name="enter">Entrada</string>
     <string name="exit">Salida</string>
     <string name="register_here">¿Sin credenciales? <u>Registrate aqui</u></string>

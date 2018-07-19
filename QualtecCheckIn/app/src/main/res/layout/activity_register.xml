@@ -40,6 +40,14 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="50dp"/>
 
+    <EditText
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:id="@+id/register_password_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="50dp"/>
+
 
     <Button
         android:id="@+id/register_register_button"

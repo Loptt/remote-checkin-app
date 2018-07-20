@@ -10,8 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,15 +38,9 @@ public class CheckInActivity extends AppCompatActivity{
 
     private final int CHECKING_IN = 1;
     private final int CHEKING_OUT = 2;
-    private final int REQUEST_LOCATION = 1;
+    private final int REQUEST_LOCATION = 3;
 
     private  int statusSaver = 0;
-
-    private Button enterButton;
-    private Button exitButton;
-
-    private TextView usernameTextView;
-    private TextView logoutText;
 
     private FirebaseUser user;
 
@@ -59,15 +56,31 @@ public class CheckInActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
 
-        enterButton = (Button) findViewById(R.id.check_in_enter);
-        exitButton = (Button) findViewById(R.id.check_in_exit);
-        logoutText = (TextView) findViewById(R.id.check_in_logout);
+        Button enterButton = (Button) findViewById(R.id.check_in_enter);
+        Button exitButton = (Button) findViewById(R.id.check_in_exit);
+        TextView logoutText = (TextView) findViewById(R.id.check_in_logout);
 
-        usernameTextView = (TextView) findViewById(R.id.check_in_username);
+        TextView usernameTextView = (TextView) findViewById(R.id.check_in_username);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        ActionBar actionBar = getSupportActionBar();
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View customView = inflater.inflate(R.layout.action_bar_check_in,null);
+
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+
+            actionBar.setCustomView(customView);
+            actionBar.setDisplayShowCustomEnabled(true);
+        }
+        else {
+            Toast.makeText(CheckInActivity.this, "Whoops", Toast.LENGTH_SHORT).show();
+        }
 
         if (user != null) {
             username = user.getDisplayName();

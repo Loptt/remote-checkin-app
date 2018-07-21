@@ -12,10 +12,12 @@ import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +36,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class CheckInActivity extends AppCompatActivity{
+public class CheckInActivity extends AppCompatActivity implements View.OnClickListener{
 
     private final int CHECKING_IN = 1;
     private final int CHEKING_OUT = 2;
     private final int REQUEST_LOCATION = 3;
+
+    private Button enterButton;
+    private Button exitButton;
+    private TextView logoutText;
+    private ImageButton configButton;
+    private TextView usernameTextView;
 
     private  int statusSaver = 0;
 
@@ -56,20 +64,26 @@ public class CheckInActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_in);
 
-        Button enterButton = (Button) findViewById(R.id.check_in_enter);
-        Button exitButton = (Button) findViewById(R.id.check_in_exit);
-        TextView logoutText = (TextView) findViewById(R.id.check_in_logout);
+        //Declare custom action bar
+        ActionBar actionBar = getSupportActionBar();
 
-        TextView usernameTextView = (TextView) findViewById(R.id.check_in_username);
+        //Find IDs for buttons
+        enterButton = (Button) findViewById(R.id.check_in_enter);
+        exitButton = (Button) findViewById(R.id.check_in_exit);
+        logoutText = (TextView) findViewById(R.id.check_in_logout);
+        usernameTextView = (TextView) findViewById(R.id.check_in_username);
 
+        //Get the firebase current user
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         locationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        ActionBar actionBar = getSupportActionBar();
-
+        //Configure custom action bar
         LayoutInflater inflater = LayoutInflater.from(this);
         View customView = inflater.inflate(R.layout.action_bar_check_in,null);
+
+        //Find ID of config button in action bar
+        configButton = (ImageButton) customView.findViewById(R.id.action_bar_check_in_imgbutton);
 
         if (actionBar != null) {
             actionBar.setDisplayShowHomeEnabled(false);
@@ -94,9 +108,18 @@ public class CheckInActivity extends AppCompatActivity{
             }
         }
 
-        enterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        enterButton.setOnClickListener(this);
+        exitButton.setOnClickListener(this);
+        logoutText.setOnClickListener(this);
+        configButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+
+        switch (v.getId()) {
+            case R.id.check_in_enter:
                 if (user != null) {
                     Toast.makeText(CheckInActivity.this, "Entrada", Toast.LENGTH_SHORT).show();
                     checkIn(CHECKING_IN);
@@ -105,12 +128,10 @@ public class CheckInActivity extends AppCompatActivity{
                     //User not correctly authenticated
                     Toast.makeText(CheckInActivity.this, "Error de autenticacion", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
 
-        exitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                break;
+
+            case R.id.check_in_exit:
                 if (user != null) {
                     Toast.makeText(CheckInActivity.this, "Salida", Toast.LENGTH_SHORT).show();
                     checkIn(CHEKING_OUT);
@@ -119,18 +140,23 @@ public class CheckInActivity extends AppCompatActivity{
                     //User not correctly authenticated
                     Toast.makeText(CheckInActivity.this, "Error de autenticacion", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
 
-        logoutText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+
+            case R.id.check_in_logout:
                 FirebaseAuth.getInstance().signOut();
 
-                Intent intent = new Intent(CheckInActivity.this, MainActivity.class);
+                intent = new Intent(CheckInActivity.this, MainActivity.class);
                 startActivity(intent);
-            }
-        });
+
+                break;
+
+            case R.id.action_bar_check_in_imgbutton:
+                intent = new Intent(CheckInActivity.this, ConfigurationActivity.class);
+                startActivity(intent);
+
+                break;
+        }
     }
 
     private void checkIn(final int status) {

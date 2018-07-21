@@ -10,4 +10,5 @@
     <string name="exit">Salida</string>
     <string name="register_here">¿Sin credenciales? <u>Registrate aqui</u></string>
     <string name="logout"><u>Cerrar sesión</u></string>
+    <string name="action_bar_title">Registro de Asistencia</string>
 </resources>

@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".CheckInActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ConfigurationActivity"></activity>
+        <activity android:name=".ConfigurationActivity"
+            android:label="@string/configuration"/>
     </application>
 
 </manifest>

@@ -74,7 +74,8 @@ public class SendMail extends AsyncTask<Void, Void, Void>{
 
             Transport.send(mimeMessage);
 
-        } catch (MessagingException e) {
+        }
+        catch (MessagingException e) {
             e.printStackTrace();
         }
 

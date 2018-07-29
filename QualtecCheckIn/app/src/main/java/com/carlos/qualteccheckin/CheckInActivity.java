@@ -4,8 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
@@ -52,7 +54,8 @@ public class CheckInActivity extends AppCompatActivity implements View.OnClickLi
 
     private FirebaseUser user;
 
-    private String username, email;
+    private String username;
+    private String emailToSend = "";
 
     private FusedLocationProviderClient locationProviderClient;
     private Calendar date;
@@ -98,7 +101,6 @@ public class CheckInActivity extends AppCompatActivity implements View.OnClickLi
 
         if (user != null) {
             username = user.getDisplayName();
-            email = user.getEmail();
 
             if (username != null) {
                 usernameTextView.setText(username);
@@ -221,10 +223,12 @@ public class CheckInActivity extends AppCompatActivity implements View.OnClickLi
 
     private void sendEmail(String message) {
 
-        String email = "carlos.deg02@hotmail.com";
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        emailToSend = sharedPreferences.getString("pref_email", "");
+
         String subject = "Reportando...";
 
-        SendMail sendMail = new SendMail(CheckInActivity.this, email, subject, message);
+        SendMail sendMail = new SendMail(CheckInActivity.this, emailToSend, subject, message);
 
         sendMail.execute();
     }

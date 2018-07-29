@@ -11,4 +11,11 @@
     <string name="register_here">¿Sin credenciales? <u>Registrate aqui</u></string>
     <string name="logout"><u>Cerrar sesión</u></string>
     <string name="action_bar_title">Registro de Asistencia</string>
+    <string name="configuration">Configuración</string>
+    <string name="email_to_send">Email para enviar asistencia</string>
+    <string name="save">Guardar</string>
+    <string name="pref_summ_email">A este correo se enviará el resumen de la asistencia</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
